@@ -1,18 +1,19 @@
-import React, { useEffect } from "react";
-import "./styles/App.css";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles/App.css";
 import queryString from "querystring";
 
 function App() {
+  const [results, setResults] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const queryData = {
         api_key: process.env.REACT_APP_API_KEY,
         query: "harry",
         language: "en-US",
-        page: 2,
+        page: 1,
       };
-      console.log(queryString.stringify(queryData));
+
       const res = await fetch(
         `${
           process.env.REACT_APP_API_ENDPOINT
@@ -21,13 +22,48 @@ function App() {
           method: "GET",
         }
       );
-      const data = await res.json();
-      console.log(data);
+
+      if (res.status === 200) {
+        const data = await res.json();
+        setResults(data.results);
+        console.log(data);
+      }
     };
 
     fetchData();
   }, []);
-  return <div className="App"></div>;
+  return (
+    <div className="app px-3 py-3">
+      <div className="container">
+        <div className="row row-cols-3">
+          {(results || []).map(
+            ({ title, poster_path }, i) =>
+              poster_path && (
+                <div key={i} className="col ">
+                  <div className="card">
+                    <img
+                      src={`${process.env.REACT_APP_IMAGE_BASE_URL}/w342${poster_path}`}
+                      className="card-img-top"
+                      alt={title}
+                    />
+                    <div className="card-body">
+                      <h5 className="card-title">{title}</h5>
+                      {/* <p className="card-text">
+                    Some quick example text to build on the card title and make up the
+                    bulk of the card's content.
+                  </p> */}
+                      <a href="#!" className="btn btn-primary">
+                        View Details
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default App;
