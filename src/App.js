@@ -9,15 +9,15 @@ function App() {
     const fetchData = async () => {
       const queryData = {
         api_key: process.env.REACT_APP_API_KEY,
-        query: "harry",
+        // query: "harry",
         language: "en-US",
-        page: 1,
+        genres: 1,
       };
 
       const res = await fetch(
         `${
           process.env.REACT_APP_API_ENDPOINT
-        }/search/movie?${queryString.stringify(queryData)}`,
+        }/movie/upcoming?${queryString.stringify(queryData)}`,
         {
           method: "GET",
         }
