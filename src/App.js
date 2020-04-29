@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.css";
-import queryString from "querystring";
+import { stringify } from "querystring";
 
 function App() {
   const [results, setResults] = useState([]);
@@ -11,13 +11,13 @@ function App() {
         api_key: process.env.REACT_APP_API_KEY,
         // query: "harry",
         language: "en-US",
-        genres: 1,
+        // genres: "2",
       };
 
       const res = await fetch(
-        `${
-          process.env.REACT_APP_API_ENDPOINT
-        }/movie/upcoming?${queryString.stringify(queryData)}`,
+        `${process.env.REACT_APP_API_ENDPOINT}/movie/upcoming?${stringify(
+          queryData
+        )}`,
         {
           method: "GET",
         }
