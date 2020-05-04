@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { stringify } from "querystring";
+import { stringify, parse } from "querystring";
 import { useLocation } from "react-router-dom";
 
-export default function SearchResults() {
+export default function SearchResults(props) {
   const [results, setResults] = useState([]);
-  const query = useLocation().search;
+  const searchParams = new URLSearchParams(useLocation().search);
 
   useEffect(() => {
     const fetchData = async () => {
       const queryData = {
         api_key: process.env.REACT_APP_API_KEY,
-        query: "harry",
+        query: searchParams.get("query"),
         language: "en-US",
       };
 
@@ -32,7 +32,7 @@ export default function SearchResults() {
 
     fetchData();
   }, []);
-  console.log(query);
+  console.log(searchParams);
   return (
     <div className="app px-3 py-3">
       <div className="container">
