@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { stringify } from "querystring";
+import { useLocation } from "react-router-dom";
 
 export default function SearchResults() {
   const [results, setResults] = useState([]);
+  const query = useLocation().search;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,6 +32,7 @@ export default function SearchResults() {
 
     fetchData();
   }, []);
+  console.log(query);
   return (
     <div className="app px-3 py-3">
       <div className="container">
